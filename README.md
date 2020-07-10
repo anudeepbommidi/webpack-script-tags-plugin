@@ -7,7 +7,7 @@
 
 `npm i --save-dev @ab/webpack-script-tags-plugin`
 
-Prerequisites
+# Prerequisites
 For each of the .html/.jsp files specified, there should be a section with following comments:
 ```
 <!-- webpack scripts: START -->
@@ -15,7 +15,7 @@ For each of the .html/.jsp files specified, there should be a section with follo
 ```
 Generated scripts will be placed in between these comments
 
-Usage
+# Usage
 ```
 const WebpackScriptsPlugin = require('webpack-scripts-plugin');
 
