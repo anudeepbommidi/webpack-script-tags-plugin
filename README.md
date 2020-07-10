@@ -3,11 +3,11 @@
 2. Supports JSP variables to some extent
 3. Matches generated bundles against regex provided by you and places them in the respective file paths provided by you.
 
-# installation
+# Installation
 
 `npm i --save-dev @ab/webpack-script-tags-plugin`
 
-# prerequisites
+Prerequisites
 For each of the .html/.jsp files specified, there should be a section with following comments:
 ```
 <!-- webpack scripts: START -->
@@ -15,7 +15,7 @@ For each of the .html/.jsp files specified, there should be a section with follo
 ```
 Generated scripts will be placed in between these comments
 
-# usage
+Usage
 ```
 const WebpackScriptsPlugin = require('webpack-scripts-plugin');
 
