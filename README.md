@@ -1,11 +1,12 @@
-# A webpack 4 plugin for generating script tags and placing them across one or more files
-Supports JSP variables to some extent
+# A webpack 4 plugin for adding webpack generated script tags to specified files
+1. Supports JSP variables to some extent
+2. Generated script tags can be put across one or more files
 
-# Installation
+# installation
 
 `npm i --save-dev webpack-scripts-plugin`
 
-# Prerequisites
+# prerequisites
 For each of the .html/.jsp files specified, there should be a section with following comments:
 ```
 <!-- webpack scripts: START -->
@@ -40,7 +41,7 @@ plugins: [
 ]
 ```
 
-# entryA generates something like below in index.html:
+entryA generates something like below in index.html:
 ```
 <!-- webpack scripts: START -->
 <script  defer type='text/javascript' src="resources/dist/entryA.aad367fb555c6f9f48fc.bundle.js" charset="utf-8"></script>
@@ -49,7 +50,7 @@ plugins: [
 <!-- webpack scripts: END -->
 ```
 
-# entryB generates something like below in setup.jsp:
+entryB generates something like below in setup.jsp:
 ```
 <!-- webpack scripts: START -->
 <script  src="<%=contextPath%>/resources/dist/entryB.e68aa1c653b3e5ad74ee.bundle.js" charset="utf-8"></script>
