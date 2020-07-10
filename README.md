@@ -5,7 +5,7 @@
 
 # Installation
 
-`npm i --save-dev @ab/webpack-script-tags-plugin`
+`npm i --save-dev webpack-script-tags-plugin`
 
 # Prerequisites
 1. Webpack 4 and above
@@ -18,10 +18,10 @@ Generated scripts will be placed in between these comments
 
 # Usage
 ```
-const WebpackScriptsPlugin = require('webpack-scripts-plugin');
+const WebpackScriptTagsPlugin = require('webpack-script-tags-plugin');
 
 plugins: [
-    new WebpackScriptsPlugin({
+    new WebpackScriptTagsPlugin({
         entryA: {
             scripts: [
                 { test: /runtime\.(.+)\.bundle\.js/, },
@@ -46,17 +46,17 @@ plugins: [
 entryA generates something like below in index.html:
 ```
 <!-- webpack scripts: START -->
-<script  defer type='text/javascript' src="resources/dist/entryA.aad367fb555c6f9f48fc.bundle.js" charset="utf-8"></script>
-<script  src="resources/dist/runtime.75ffecf22e8334b80c1b.bundle.js" charset="utf-8"></script>
-<script  defer src="resources/dist/defaultVendors~entryA~entryB.eb5e6982941a298f3ffd.bundle.js" charset="utf-8"></script>
+<script  defer type='text/javascript' src="resources/dist/entryA.a023es.bundle.js" charset="utf-8"></script>
+<script  src="resources/dist/runtime.qa2ewd.bundle.js" charset="utf-8"></script>
+<script  defer src="resources/dist/defaultVendors~entryA~entryB.qw234.bundle.js" charset="utf-8"></script>
 <!-- webpack scripts: END -->
 ```
 
 entryB generates something like below in setup.jsp:
 ```
 <!-- webpack scripts: START -->
-<script  src="<%=contextPath%>/resources/dist/entryB.e68aa1c653b3e5ad74ee.bundle.js" charset="utf-8"></script>
-<script  src="<%=contextPath%>/resources/dist/runtime.75ffecf22e8334b80c1b.bundle.js" charset="utf-8"></script>
-<script  src="<%=contextPath%>/resources/dist/defaultVendors~entryA~entryB.eb5e6982941a298f3ffd.bundle.js" charset="utf-8"></script>
+<script  src="<%=contextPath%>/resources/dist/entryB.e68aa1.bundle.js" charset="utf-8"></script>
+<script  src="<%=contextPath%>/resources/dist/runtime.75ffw.bundle.js" charset="utf-8"></script>
+<script  src="<%=contextPath%>/resources/dist/defaultVendors~entryA~entryB.eb5e6.bundle.js" charset="utf-8"></script>
 <!-- webpack scripts: END -->
 ```
