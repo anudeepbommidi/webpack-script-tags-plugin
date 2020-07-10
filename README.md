@@ -1,6 +1,6 @@
-# A webpack 4 plugin for adding webpack generated script tags to specified files
-1. Supports JSP variables to some extent
-2. Generated script tags can be put across one or more files (html/jsp)
+# What for ?
+1. A webpack 4 plugin for adding webpack generated script tags to specified files (html/jsp)
+2. Supports JSP variables to some extent
 
 # installation
 
