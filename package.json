@@ -1,0 +1,31 @@
+{
+  "name": "@ab/webpack-add-script-tags-plugin",
+  "version": "1.0.0",
+  "description": "A webpack plugin to add script tags to multiple .html/.jsp files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anudeepbommidi/webpack-script-tags-plugin.git"
+  },
+  "keywords": [
+    "webpack",
+    "add",
+    "scripts",
+    "script",
+    "tags"
+  ],
+  "author": "anudeep bommidi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anudeepbommidi/webpack-script-tags-plugin/issues"
+  },
+  "homepage": "https://github.com/anudeepbommidi/webpack-script-tags-plugin#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "schema-utils": "^1.0.0",
+    "webpack": "^4.43.0"
+  }
+}
