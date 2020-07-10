@@ -1,10 +1,10 @@
 # A webpack 4 plugin for adding webpack generated script tags to specified files
 1. Supports JSP variables to some extent
-2. Generated script tags can be put across one or more files
+2. Generated script tags can be put across one or more files (html/jsp)
 
 # installation
 
-`npm i --save-dev webpack-scripts-plugin`
+`npm i --save-dev @ab/webpack-script-tags-plugin`
 
 # prerequisites
 For each of the .html/.jsp files specified, there should be a section with following comments:
