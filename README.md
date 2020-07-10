@@ -8,7 +8,8 @@
 `npm i --save-dev @ab/webpack-script-tags-plugin`
 
 # Prerequisites
-For each of the .html/.jsp files specified, there should be a section with following comments:
+1. Webpack 4 and above
+2. For each of the .html/.jsp files specified, there should be a section with following comments:
 ```
 <!-- webpack scripts: START -->
 <!-- webpack scripts: END -->
