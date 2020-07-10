@@ -2,7 +2,7 @@ const fs = require('fs');
 const EOL = require("os").EOL;
 const path = require('path');
 const { RawSource } = require("webpack-sources");
-const validate = require('schema-utils').validate;
+const validateOptions = require('schema-utils');
 const schema = require('./schema.json');
 
 const SCRIPTS_START = '<!-- webpack scripts: START -->';
@@ -10,15 +10,16 @@ const SCRIPTS_END = '<!-- webpack scripts: END -->';
 const LOC_REGEX = new RegExp(`${SCRIPTS_START}([\\d\\D]*)${SCRIPTS_END}`,'i');
 
 class WebpackScriptTagsPlugin {
-    constructor(config) {
-        validate(schema, config, { name: "WebpackScriptTagsPlugin" });
+    constructor(config = {}) {
+        validateOptions(schema, config, "WebpackScriptTagsPlugin");
         this.chunkVersions = {};
         this.config = config;
+        this.publicPath = '';
+        this.rootPath = '';
     }
 
     apply(compiler) {
-        compiler.hooks.emit.tapAsync('WebpackScriptsPlugin', (compilation, callback) => {
-            debugger;
+        compiler.hooks.emit.tapAsync('WebpackScriptTagsPlugin', (compilation, callback) => {
             const changedChunks = compilation.chunks.filter((chunk) => {
                 var oldVersion = this.chunkVersions[chunk.name];
                 this.chunkVersions[chunk.name] = chunk.hash;
@@ -27,7 +28,10 @@ class WebpackScriptTagsPlugin {
             if (!changedChunks.length) {
                 return;
             }
+
             this.publicPath = compilation.options.output.publicPath.split('/').filter(x => x).join('/');
+            this.rootPath = compilation.options.context;
+
             const allChunks = this.getAllChunks(compilation);
             const assetKeys = Object.keys(compilation.assets);
             if (compilation.options.mode === 'production') {
@@ -105,11 +109,11 @@ class WebpackScriptTagsPlugin {
         });
         scripts += SCRIPTS_END;
         const content = config.fileContent.replace(config.matchMeta[0], scripts);
-        fs.writeFileSync(path.resolve(__dirname, config.filePath), content);
+        fs.writeFileSync(path.join(this.rootPath, config.filePath), content);
     }
 
     getFileContent(filePath) {
-        return fs.readFileSync(path.resolve(__dirname, filePath), 'utf8');
+        return fs.readFileSync(path.join(this.rootPath, filePath), 'utf8');
     }
 
     generateScriptTag(chunk, config, scriptMeta) {

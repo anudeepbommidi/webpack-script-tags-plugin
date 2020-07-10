@@ -1,5 +1,5 @@
 {
-  "name": "@ab/webpack-add-script-tags-plugin",
+  "name": "webpack-script-tags-plugin",
   "version": "1.0.0",
   "description": "A webpack plugin to add script tags to multiple .html/.jsp files",
   "main": "index.js",
