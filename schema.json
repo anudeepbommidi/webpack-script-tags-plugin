@@ -1,31 +1,32 @@
-{
+{ 
     "type": "object",
-    "additionalProperties": {
-        "type": "object",
-        "properties": {
-            "scripts": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "test": {
-                            "instanceof": "RegExp"
-                        },
-                        "attrs": {
-                            "type": "string"
-                        }
+    "properties": {
+        "scripts": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "test": {
+                        "instanceof": "RegExp"
+                    },
+                    "attrs": {
+                        "type": "string"
                     }
-                }
-            },
-            "filePath": {
-                "type": "string"
-            },
-            "useContextVar": {
-                "type": "string"
+                },
+                "minItems": 1,
+                "additionalProperties": false
             }
         },
-        "required": ["scripts", "filePath"],
-        "additionalProperties": false
+        "filePath": {
+            "type": "string"
+        },
+        "useContextVar": {
+            "type": "string"
+        }
     },
-    "minProperties": 1
+    "required": [
+        "scripts",
+        "filePath"
+    ],
+    "additionalProperties": false
 }

@@ -10,7 +10,7 @@ const SCRIPTS_END = '<!-- webpack scripts: END -->';
 const LOC_REGEX = new RegExp(`${SCRIPTS_START}([\\d\\D]*)${SCRIPTS_END}`,'i');
 
 class WebpackScriptTagsPlugin {
-    constructor(options = {}) {
+    constructor(options = []) {
         validateOptions(schema, options, "WebpackScriptTagsPlugin");
         this.chunkVersions = {};
         this.options = options;
@@ -37,24 +37,24 @@ class WebpackScriptTagsPlugin {
             const assetKeys = Object.keys(compilation.assets);
             // if production mode, replace file content in-place (in disk)
             if (compilation.options.mode === 'production') {
-                Object.keys(this.options)
-                    .forEach((key) => {
-                        this.processScripts(this.options[key], allChunks);
+                this.options
+                    .forEach((config) => {
+                        this.processScripts(config, allChunks);
                     });
                 // if development, webpack will cache the files because it'd be watching
                 // them, so retrieve the cached asset and update it and let webpack do the writing (to disk) for us
             } else {
-                Object.keys(this.options)
-                .forEach((key) => {
-                    const assetKey = this.findAsset(assetKeys, this.options[key].filePath);
-                    if (assetKey) {
-                        const fileContent = compilation.assets[assetKey]._value.toString('utf8');
-                        const source = new RawSource(
-                            this.getContentWithScripts(this.options[key], fileContent, allChunks),
-                        );
-                        compilation.updateAsset(assetKey, source, source.size());
-                    }
-                });
+                this.options
+                    .forEach((config) => {
+                        const assetKey = this.findAsset(assetKeys, config.filePath);
+                        if (assetKey) {
+                            const fileContent = compilation.assets[assetKey]._value.toString('utf8');
+                            const source = new RawSource(
+                                this.getContentWithScripts(config, fileContent, allChunks),
+                            );
+                            compilation.updateAsset(assetKey, source, source.size());
+                        }
+                    });
             }
             callback();
         });

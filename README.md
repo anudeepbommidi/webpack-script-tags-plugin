@@ -21,25 +21,23 @@ Generated scripts will be placed in between these comments
 const WebpackScriptTagsPlugin = require('webpack-script-tags-plugin');
 
 plugins: [
-    new WebpackScriptTagsPlugin({
-        entryA: {
+    new WebpackScriptTagsPlugin([
+        {
             scripts: [
                 { test: /runtime\.(.+)\.bundle\.js/, },
                 { test: /entryA(.*)\.(.+)\.bundle\.js/, attrs: `defer type='text/javascript'`, },
-                { test: /(.*)defaultVendors(.*)\.(.+)\.bundle\.js/, attrs: 'defer', },
             ],
             filePath: 'src/index.html'
         },
-        entryB: {
+        {
             scripts: [
                 { test: /runtime\.(.+)\.bundle\.js/, },
-                { test: /(.*)defaultVendors(.*)\.(.+)\.bundle\.js/, },
                 { test: /entryB\.(.+)\.bundle\.js/, },
             ],
             filePath: 'WEB-INF/jsp/setup.jsp',
             useContextVar: 'contextPath',
         },
-    })
+    ])
 ]
 ```
 
@@ -48,7 +46,6 @@ entryA generates something like below in index.html:
 <!-- webpack scripts: START -->
 <script  defer type='text/javascript' src="resources/dist/entryA.a023es.bundle.js" charset="utf-8"></script>
 <script  src="resources/dist/runtime.qa2ewd.bundle.js" charset="utf-8"></script>
-<script  defer src="resources/dist/defaultVendors~entryA~entryB.qw234.bundle.js" charset="utf-8"></script>
 <!-- webpack scripts: END -->
 ```
 
@@ -57,6 +54,5 @@ entryB generates something like below in setup.jsp:
 <!-- webpack scripts: START -->
 <script  src="<%=contextPath%>/resources/dist/entryB.e68aa1.bundle.js" charset="utf-8"></script>
 <script  src="<%=contextPath%>/resources/dist/runtime.75ffw.bundle.js" charset="utf-8"></script>
-<script  src="<%=contextPath%>/resources/dist/defaultVendors~entryA~entryB.eb5e6.bundle.js" charset="utf-8"></script>
 <!-- webpack scripts: END -->
 ```
