@@ -1,5 +1,5 @@
 # What for ?
-1. A webpack 4 plugin for adding webpack generated script tags to specified files (html/jsp)
+1. A webpack 4 plugin for adding webpack generated js bundles as script tags to specified files (html/jsp)
 2. Supports JSP variables to some extent
 3. Matches generated bundles against regex provided by you and places them in the respective file paths provided by you.
 
