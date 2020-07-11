@@ -10,10 +10,10 @@ const SCRIPTS_END = '<!-- webpack scripts: END -->';
 const LOC_REGEX = new RegExp(`${SCRIPTS_START}([\\d\\D]*)${SCRIPTS_END}`,'i');
 
 class WebpackScriptTagsPlugin {
-    constructor(config = {}) {
-        validateOptions(schema, config, "WebpackScriptTagsPlugin");
+    constructor(options = {}) {
+        validateOptions(schema, options, "WebpackScriptTagsPlugin");
         this.chunkVersions = {};
-        this.config = config;
+        this.options = options;
         this.publicPath = '';
         this.rootPath = '';
     }
@@ -26,6 +26,7 @@ class WebpackScriptTagsPlugin {
                 return chunk.hash !== oldVersion;
             });
             if (!changedChunks.length) {
+                callback();
                 return;
             }
 
@@ -34,21 +35,22 @@ class WebpackScriptTagsPlugin {
 
             const allChunks = this.getAllChunks(compilation);
             const assetKeys = Object.keys(compilation.assets);
+            // if production mode, replace file content in-place (in disk)
             if (compilation.options.mode === 'production') {
-                this.setContent();
-                Object.keys(this.config)
+                Object.keys(this.options)
                     .forEach((key) => {
-                        this.processScripts(this.config[key], allChunks);
+                        this.processScripts(this.options[key], allChunks);
                     });
+                // if development, webpack will cache the files because it'd be watching
+                // them, so retrieve the cached asset and update it and let webpack do the writing (to disk) for us
             } else {
-                Object.keys(this.config)
+                Object.keys(this.options)
                 .forEach((key) => {
-                    const assetKey = this.findAsset(assetKeys, this.config[key].filePath);
+                    const assetKey = this.findAsset(assetKeys, this.options[key].filePath);
                     if (assetKey) {
                         const fileContent = compilation.assets[assetKey]._value.toString('utf8');
-                        const matchMeta = this.getMatchMeta(fileContent);
                         const source = new RawSource(
-                            this.addScriptsToFile(this.config[key], fileContent, matchMeta, allChunks),
+                            this.getContentWithScripts(this.options[key], fileContent, allChunks),
                         );
                         compilation.updateAsset(assetKey, source, source.size());
                     }
@@ -71,7 +73,11 @@ class WebpackScriptTagsPlugin {
         return assetKeys.find(key => pathRegex.test(key));
     }
 
-    addScriptsToFile(config, content, matchMeta, chunks) {
+    getContentWithScripts(config, content, chunks) {
+        const matchMeta = content.match(LOC_REGEX);
+        if (matchMeta === null) {
+            throw new Error(`Expected to find comments: ${SCRIPTS_START}...${SCRIPTS_END}`);
+        }
         let scripts = SCRIPTS_START + EOL;
         chunks.forEach((chunk) => {
             const script = config.scripts.find(script => script.test.test(chunk));
@@ -83,32 +89,9 @@ class WebpackScriptTagsPlugin {
         return content.replace(matchMeta[0], scripts);
     }
 
-    setContent() {
-        Object.keys(this.config)
-            .forEach((key) => {
-                this.config[key].fileContent = this.getFileContent(this.config[key].filePath);
-                this.config[key].matchMeta = this.getMatchMeta(this.config[key].fileContent);
-            });
-    }
-
-    getMatchMeta(content) {
-        const matchMeta = content.match(LOC_REGEX);
-        if (matchMeta === null) {
-            throw new Error(`Expected to find comments: ${SCRIPTS_START}...${SCRIPTS_END}`);
-        }
-        return matchMeta;
-    }
-
     processScripts(config, chunks) {
-        let scripts = SCRIPTS_START + EOL;
-        chunks.forEach((chunk) => {
-            const script = config.scripts.find(script => chunk.match(script.test) !== null);
-            if (script) {
-                scripts = scripts.concat(this.generateScriptTag(chunk, config, script)).concat(EOL);
-            }
-        });
-        scripts += SCRIPTS_END;
-        const content = config.fileContent.replace(config.matchMeta[0], scripts);
+        let content = this.getFileContent(config.filePath);
+        content = this.getContentWithScripts(config, content, chunks);
         fs.writeFileSync(path.join(this.rootPath, config.filePath), content);
     }
 

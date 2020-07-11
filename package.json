@@ -1,6 +1,6 @@
 {
   "name": "webpack-script-tags-plugin",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A webpack plugin to add script tags to multiple .html/.jsp files",
   "main": "index.js",
   "scripts": {
@@ -25,6 +25,7 @@
   "homepage": "https://github.com/anudeepbommidi/webpack-script-tags-plugin#readme",
   "dependencies": {},
   "devDependencies": {
+    "eslint": "^7.4.0",
     "schema-utils": "^1.0.0",
     "webpack": "^4.43.0"
   }
