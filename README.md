@@ -24,15 +24,15 @@ plugins: [
     new WebpackScriptTagsPlugin([
         {
             scripts: [
-                { test: /runtime\.(.+)\.bundle\.js/, },
-                { test: /entryA(.*)\.(.+)\.bundle\.js/, attrs: `defer type='text/javascript'`, },
+                { test: /runtime.(.+).bundle.js/, },
+                { test: /(.*)entryA(.*).(.+).bundle.js/, attrs: `defer type='text/javascript'`, },
             ],
             filePath: 'src/index.html'
         },
         {
             scripts: [
-                { test: /runtime\.(.+)\.bundle\.js/, },
-                { test: /entryB\.(.+)\.bundle\.js/, },
+                { test: /runtime.(.+).bundle.js/, },
+                { test: /(.*)entryB(.*).(.+).bundle.js/, },
             ],
             filePath: 'WEB-INF/jsp/setup.jsp',
             useContextVar: 'contextPath',

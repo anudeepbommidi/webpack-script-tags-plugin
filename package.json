@@ -1,6 +1,6 @@
 {
   "name": "webpack-script-tags-plugin",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A webpack plugin to add script tags to multiple .html/.jsp files",
   "main": "index.js",
   "scripts": {

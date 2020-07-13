@@ -12,7 +12,6 @@ const LOC_REGEX = new RegExp(`${SCRIPTS_START}([\\d\\D]*)${SCRIPTS_END}`,'i');
 class WebpackScriptTagsPlugin {
     constructor(options = []) {
         validateOptions(schema, options, "WebpackScriptTagsPlugin");
-        this.chunkVersions = {};
         this.options = options;
         this.publicPath = '';
         this.rootPath = '';
@@ -20,16 +19,6 @@ class WebpackScriptTagsPlugin {
 
     apply(compiler) {
         compiler.hooks.emit.tapAsync('WebpackScriptTagsPlugin', (compilation, callback) => {
-            const changedChunks = compilation.chunks.filter((chunk) => {
-                var oldVersion = this.chunkVersions[chunk.name];
-                this.chunkVersions[chunk.name] = chunk.hash;
-                return chunk.hash !== oldVersion;
-            });
-            if (!changedChunks.length) {
-                callback();
-                return;
-            }
-
             this.publicPath = compilation.options.output.publicPath.split('/').filter(x => x).join('/');
             this.rootPath = compilation.options.context;
 
