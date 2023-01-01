@@ -27,6 +27,6 @@
   "devDependencies": {
     "eslint": "^7.4.0",
     "schema-utils": "^1.0.0",
-    "webpack": "^4.43.0"
+    "webpack": "^5.75.0"
   }
 }
